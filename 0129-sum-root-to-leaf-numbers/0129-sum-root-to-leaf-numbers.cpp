@@ -11,40 +11,19 @@
  */
 class Solution {
 public:
-    int ans = 0;
-    void solve(TreeNode* root,vector<int>&v)
-    {
+    int solve(TreeNode* root, int curr, int sum){
+        if(root==NULL)  return 0;
+        curr = curr*10+root->val;
         if(root->left==NULL && root->right==NULL)
         {
-            v.push_back(root->val);
-            int x =0;
-            for(auto it: v)
-            {
-                x = x*10+it;
-            }
-            ans+=x;
-            v.pop_back();
-            return;
+            sum+= curr;
+            return sum;
         }
-        
-        if(root->left!=NULL)
-        {
-            v.push_back(root->val);
-            solve(root->left,v);
-            v.pop_back();
-        }
-        
-        if(root->right!=NULL)
-        {
-            v.push_back(root->val);
-            solve(root->right,v);
-            v.pop_back();
-        }
-
+            
+        return solve(root->left,curr,sum)+solve(root->right,curr, sum);
     }
     int sumNumbers(TreeNode* root) {
-        vector<int>v;
-        solve(root,v);
-        return ans;
+        int curr=0, sum = 0;
+        return solve(root,curr,sum);
     }
 };
