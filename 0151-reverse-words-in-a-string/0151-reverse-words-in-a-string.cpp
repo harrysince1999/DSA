@@ -4,9 +4,12 @@ public:
         vector<string> words;
         stringstream ss(s);
         string tmp;
-        while (ss >> tmp)
-            words.push_back(tmp);
-
+        while (ss)
+        {
+            if(ss>>tmp)
+                words.push_back(tmp);
+        }
+            
         string ans;
         for (int i = words.size() - 1; i >= 0; --i) {
             if (i != words.size() - 1) ans += " ";
