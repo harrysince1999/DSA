@@ -1,21 +1,18 @@
 class Solution {
 public:
-    int solve(vector<vector<int>> &grid, int i, int j,vector<vector<int>>& dp)
+    int solve(vector<vector<int>>& grid,int i, int j,vector<vector<int>>& dp)
     {
-        if(i==0 && j==0)
-            return grid[i][j];
+        if(i>=grid.size() || j>=grid[0].size())   return 1e9;
+        if(i==grid.size()-1 && j==grid[0].size()-1)   return grid[i][j];
         
-        if(i<0 || j<0)  return 1e9;
         if(dp[i][j]!=-1)    return dp[i][j];
-        int a = grid[i][j] + solve(grid,i-1,j,dp);
-        int b= grid[i][j] + solve(grid,i,j-1,dp);
+        int down = grid[i][j]+solve(grid,i+1,j,dp);
+        int right = grid[i][j]+solve(grid,i,j+1,dp);
         
-        return dp[i][j]=min(a,b);
+        return dp[i][j]=min(down,right);
     }
     int minPathSum(vector<vector<int>>& grid) {
-        int r = grid.size();
-        int c = grid[0].size();
-        vector<vector<int>> dp(r,vector<int>(c,-1));
-        return solve(grid,r-1,c-1,dp);
+        vector<vector<int>> dp(grid.size(),vector<int>(grid[0].size(),-1));
+        return solve(grid,0,0,dp);
     }
 };
