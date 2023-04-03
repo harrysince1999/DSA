@@ -33,7 +33,7 @@ class Solution {
   public:
     // Function to return a list containing the inorder traversal of the tree.
     vector<int> inOrder(Node* root) {
-        vector<int> ans;
+        vector<int>ans;
         stack<Node*> st;
         Node* curr = root;
         while(!st.empty() || curr!=NULL)
