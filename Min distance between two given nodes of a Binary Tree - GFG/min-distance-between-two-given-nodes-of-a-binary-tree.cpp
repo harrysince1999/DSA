@@ -114,7 +114,7 @@ class Solution{
         if(root==NULL)  return -1;
         if(root->data == a) return dis;
         int left = findDis(root->left,a,dis+1);
-        if(left!=-1)
+        if(left!=-1)    
             return left;
         return findDis(root->right,a,dis+1);
     }
