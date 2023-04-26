@@ -1,10 +1,8 @@
 class Solution {
 public:
-    bool check(string s)
+    bool check(string s,int i, int j)
     {
-        int i=0;
-        int j=s.size()-1;
-        while(i<=j)
+        while(i<j)
         {
             if(s[i]!=s[j])  return false;
             i++;
@@ -12,48 +10,27 @@ public:
         }
         return true;
     }
-    void solve(string& s, int i, string& str, vector<vector<string>> &ans)
-    {
+    void solve(string& s, int i, vector<string>& result, vector<vector<string>>& ans){
         if(i==s.size())
         {
-            vector<string>o;
-            int x = 0;
-            while(x<str.size())
-            {
-                string temp="";
-                while(x<str.size() && str[x]!='@')
-                {
-                    temp+= str[x];
-                    x++;
-                }
-                x++;
-                if(check(temp)==true)
-                    o.push_back(temp);
-                else
-                    return;
-            }
-            ans.push_back(o);
+            ans.push_back(result);
             return;
         }
         
-        if(i!=0)
+        for(int j=i;j<s.size();j++)
         {
-            str+='@';
-            str+=s[i];
-            solve(s,i+1,str,ans);
-            str.pop_back();
-            str.pop_back();
+            if(check(s,i,j))
+            {
+                result.push_back(s.substr(i,j-i+1));
+                solve(s,j+1,result,ans);
+                result.pop_back();
+            }
         }
-        
-        str+= s[i];
-        solve(s,i+1,str,ans);
-        str.pop_back();
-
     }
     vector<vector<string>> partition(string s) {
         vector<vector<string>> ans;
-        string str="";
-        solve(s,0,str,ans);
+        vector<string>result;
+        solve(s,0,result,ans);
         return ans;
     }
 };
