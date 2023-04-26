@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isTrue(int i, int j, string& s)
+    bool check(string& s,int i, int j)
     {
         while(i<j)
         {
@@ -10,23 +10,24 @@ public:
         }
         return true;
     }
-    int solve(string s, int i,vector<int>& dp)
+    int solve(string& s, int i,vector<int>& dp)
     {
         if(i==s.size()) return 0;
         if(dp[i]!=-1)   return dp[i];
-        int minCost = INT_MAX;
+        
+        int minCut = INT_MAX;
         for(int j=i;j<s.size();j++)
         {
-            if(isTrue(i,j,s))
+            if(check(s,i,j))
             {
-                int cost = 1+solve(s,j+1,dp);
-                minCost = min(minCost,cost);
+                int cut = 1+solve(s,j+1,dp);
+                minCut = min(minCut,cut);
             }
         }
-        return dp[i]=minCost;
+        return dp[i]=minCut;
     }
     int minCut(string s) {
-        vector<int>dp(s.size(),-1);
+        vector<int>dp(20001,-1);
         return solve(s,0,dp)-1;
     }
 };
