@@ -11,47 +11,50 @@ using namespace std;
 class Solution 
 {
     public:
-    bool isPossible(int A[], int N, int M, int mid)
+    bool isPossible(int arr[], int n, int m, int mid)
     {
-        int pageSum = 0;
-        int stud = 1;
-        for(int i=0;i<N;i++)
+        int pagesCount = 0;
+        int book = 1;
+        for(int i=0;i<n;i++)
         {
-            if(pageSum+A[i] <= mid)
+            if(arr[i]>mid)  return false;
+            else if(arr[i]+pagesCount>mid)
             {
-                pageSum+= A[i];
+                pagesCount= arr[i];
+                book++;
             }
             else
             {
-                stud++;
-                if(stud>M || A[i]>mid) 
-                    return false;
-                pageSum = A[i];
+                pagesCount+= arr[i];
             }
         }
+        if(book>m)
+            return false;
         return true;
     }
-    
-    int findPages(int A[], int N, int M) 
+    int findPages(int arr[], int n, int m) 
     {
+        int low = arr[0];
+        int high = 0;
         int ans = -1;
-        if(N<M) return ans;
-        int sum = 0;
-        for(int i=0;i<N;i++)
-            sum+= A[i];
-        int s = 0;
-        int e = sum;
-        while(s<=e)
+        if(n<m) return ans;
+        for(int i=0;i<n;i++){
+            low = min(low,arr[i]);
+            high += arr[i];
+        }
+
+        while(low<=high)
         {
-            int mid = (e-s)/2+s;
-            if(isPossible(A,N,M,mid))
+            int mid = (high-low)/2+low;
+            if(isPossible(arr,n,m,mid))
             {
                 ans = mid;
-                e=mid-1;
+                high = mid-1;
             }
-                
             else
-                s= mid+1;
+            {
+                low = mid+1;
+            }
         }
         return ans;
     }
