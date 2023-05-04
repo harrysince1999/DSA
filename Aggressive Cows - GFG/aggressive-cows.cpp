@@ -9,36 +9,33 @@ using namespace std;
 
 class Solution {
 public:
-bool isPossible(vector<int> &stalls, int k, int mid, int n) {
-    int cowCount = 1;
-    int lastPos = stalls[0];
-    
-    for(int i=0; i<n; i++ ){
-        
-        if(stalls[i]-lastPos >= mid)
+    bool isPossible(vector<int>& stalls, int n, int k, int mid)
+    {
+        int count = 1;
+        int co = stalls[0];
+        for(int i=1;i<n;i++)
         {
-            cowCount++;
-            if(cowCount==k)
+            if(stalls[i]-co >= mid)
             {
-                return true;
+                count++;
+                co = stalls[i];
             }
-            lastPos = stalls[i];
+            if(count==k)    return true;
         }
+        return false;
     }
-    return false;
-}
     int solve(int n, int k, vector<int> &stalls) {
         sort(stalls.begin(),stalls.end());
-        int i=1;
-        int j=stalls[n-1]-stalls[0];
-        int ans = 0;
+        int i = 1;
+        int j = stalls[n-1]-stalls[0];
+        int ans = -1;
         while(i<=j)
         {
-            int mid = (j-i)/2+i;
-            if(isPossible(stalls,k,mid,n))
+            int mid = (i+j)/2;
+            if(isPossible(stalls,n,k,mid))
             {
                 ans = mid;
-                i=mid+1;
+                i= mid+1;
             }
             else
                 j=mid-1;
