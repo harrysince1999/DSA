@@ -12,17 +12,17 @@ public:
     bool isPossible(vector<int>& stalls, int n, int k, int mid)
     {
         int count = 1;
-        int co = stalls[0];
-        for(int i=1;i<n;i++)
+        int prev = 0;
+        for(int i=1;i<stalls.size();i++)
         {
-            if(stalls[i]-co >= mid)
+            int diff = stalls[i]-stalls[prev];
+            if(diff>=mid)
             {
                 count++;
-                co = stalls[i];
+                prev = i;
             }
-            if(count==k)    return true;
         }
-        return false;
+        return count>=k;
     }
     int solve(int n, int k, vector<int> &stalls) {
         sort(stalls.begin(),stalls.end());
