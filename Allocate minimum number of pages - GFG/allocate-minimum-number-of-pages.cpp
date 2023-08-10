@@ -11,50 +11,47 @@ using namespace std;
 class Solution 
 {
     public:
-    bool isPossible(int arr[], int n, int m, int mid)
-    {
-        int pagesCount = 0;
-        int book = 1;
+    //Function to find minimum number of pages.
+    bool isPossible(int A[], int n, int m, int mid){
+        int num = 1;
+        int sum = 0;
         for(int i=0;i<n;i++)
         {
-            if(arr[i]>mid)  return false;
-            else if(arr[i]+pagesCount>mid)
+            if(A[i]>mid)    return false;
+            else if(A[i]+sum <= mid)
             {
-                pagesCount= arr[i];
-                book++;
+                sum+= A[i];
             }
             else
             {
-                pagesCount+= arr[i];
+                num++;
+                sum= A[i];
             }
         }
-        if(book>m)
-            return false;
+        if(num>m)   return false;
         return true;
     }
-    int findPages(int arr[], int n, int m) 
+    int findPages(int A[], int N, int M) 
     {
-        int low = arr[0];
-        int high = 0;
         int ans = -1;
-        if(n<m) return ans;
-        for(int i=0;i<n;i++){
-            low = min(low,arr[i]);
-            high += arr[i];
-        }
-
-        while(low<=high)
+        int lo = A[0];
+        int hi = 0;
+        if(M>N) return -1;
+        for(int i=0;i<N;i++)
         {
-            int mid = (high-low)/2+low;
-            if(isPossible(arr,n,m,mid))
+            lo = min(lo,A[i]);
+            hi += A[i];
+        }
+        while(lo<=hi)
+        {
+            int mid = (hi-lo)/2+lo;
+            if(isPossible(A,N,M,mid))
             {
                 ans = mid;
-                high = mid-1;
+                hi = mid-1;
             }
             else
-            {
-                low = mid+1;
-            }
+                lo = mid+1;
         }
         return ans;
     }
